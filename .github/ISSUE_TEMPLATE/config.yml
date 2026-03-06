@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussion or question
+    url: https://github.com/almhajer/cmake-tools-arabic/discussions/new
+    about: Please use our Discussions board to start a discussion or to ask a question.

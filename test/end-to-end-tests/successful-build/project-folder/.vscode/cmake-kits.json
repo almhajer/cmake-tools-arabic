@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Test Toolchain",
+        "toolchainFile": "${workspaceFolder}\\test-toolchain.cmake"
+    },
+    {
+        "name": "Generator switch test GCC Make",
+        "compilers": {
+            "CXX": "g++",
+            "C": "gcc"
+        },
+        "preferredGenerator": {
+            "name": "Unix Makefiles"
+        }
+    },
+    {
+        "name": "Generator switch test GCC Ninja",
+        "compilers": {
+            "CXX": "g++",
+            "C": "gcc"
+        },
+        "preferredGenerator": {
+            "name": "Ninja"
+        }
+    },
+    {
+        "name": "Generator switch test GCC no generator",
+        "compilers": {
+            "CXX": "g++",
+            "C": "gcc"
+        }
+    },
+    {
+        "name": "Generator switch test VS 2022",
+        "visualStudio": "VisualStudio.17.0",
+        "visualStudioArchitecture": "x86",
+        "preferredGenerator": {
+            "name": "Visual Studio 17 2022",
+            "platform": "win32",
+            "toolset": "host=x86"
+        }
+    },
+    {
+        "name": "Generator switch test VS 2022 Ninja",
+        "visualStudio": "VisualStudio.17.0",
+        "visualStudioArchitecture": "x86",
+        "preferredGenerator": {
+            "name": "Ninja"
+        }
+    },
+    {
+        "name": "Generator switch test VS 2022 no generator",
+        "visualStudio": "VisualStudio.17.0",
+        "visualStudioArchitecture": "x86"
+    }
+]
