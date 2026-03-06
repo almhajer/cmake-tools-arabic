@@ -2,7 +2,7 @@
   "name": "cmake-tools-arabic",
   "displayName": "CMake Tools بالعربي",
   "description": "Arabic-localized CMake Tools extension for Visual Studio Code",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "Arabic-language",
   "repository": {
     "type": "git",

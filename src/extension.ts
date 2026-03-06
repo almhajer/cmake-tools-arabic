@@ -2753,12 +2753,29 @@ export async function activate(context: vscode.ExtensionContext): Promise<api.CM
     taskProvider = vscode.tasks.registerTaskProvider(CMakeTaskProvider.CMakeScriptType, cmakeTaskProvider);
     // Load a new extension manager
     extensionManager = await ExtensionManager.create(context);
-    await extensionManager.init();
+    const apiExports = await setup(context);
 
-    // need the extensionManager to be initialized for this.
-    pinnedCommands = new PinnedCommands(extensionManager.getWorkspaceConfig(), extensionManager.extensionContext);
+    try {
+        await extensionManager.init();
+    } catch (e) {
+        const error = e instanceof Error ? e : new Error(String(e));
+        rollbar.exception(localize('activation.failed', 'CMake Tools activation failed'), error);
+        log.error(localize('activation.failed.message', 'CMake Tools failed to finish activating: {0}', error.message));
+        void vscode.window.showErrorMessage(localize(
+            'activation.failed.user.message',
+            'CMake Tools encountered an activation error. Some features may be unavailable until the window is reloaded.'
+        ));
+    }
 
-    return setup(context);
+    try {
+        pinnedCommands = new PinnedCommands(extensionManager.getWorkspaceConfig(), extensionManager.extensionContext);
+    } catch (e) {
+        const error = e instanceof Error ? e : new Error(String(e));
+        rollbar.exception(localize('pinned.commands.init.failed', 'Pinned commands initialization failed'), error);
+        log.error(localize('pinned.commands.init.failed.message', 'Failed to initialize pinned commands: {0}', error.message));
+    }
+
+    return apiExports;
 }
 
 // Enable all or part of the CMake Tools palette commands

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.4
+
+- Register CMake commands before the heavier extension initialization finishes.
+- Prevent activation failures from surfacing as `command not found` for `cmake.quickStart`.
+- Keep activation resilient even if a non-critical initialization step fails.
+
 ## 0.0.3
 
 - Add the missing activation event for `cmake.quickStart`.
