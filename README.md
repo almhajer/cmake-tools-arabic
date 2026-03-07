@@ -14,7 +14,7 @@
 
 <div align="center">
 
-<img src="https://github.com/almhajer/cmake-tools-arabic/raw/main/res/logo-margin-bottom.png" width="280" alt="CMake Tools Arabic Logo" />
+<img src="https://github.com/almhajer/cmake-tools-arabic/raw/main/res/logo-margin-bottom.png"  alt="CMake Tools Arabic Logo" />
 
 </div>
 
