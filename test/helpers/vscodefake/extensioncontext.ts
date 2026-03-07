@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
+import * as util from '@cmt/util';
 import { TestMemento, StateMemento } from './memento';
 const notImplementedErr: string = 'Method not implemented.';
 export class DefaultExtensionContext implements vscode.ExtensionContext {
@@ -41,7 +42,7 @@ export class DefaultExtensionContext implements vscode.ExtensionContext {
     extension: vscode.Extension<any>;
 
     constructor() {
-        this.extension = vscode.extensions.getExtension("ms-vscode.cmake-tools")!;
+        this.extension = util.thisExtension();
     }
     public clean() {
         (this.workspaceState as TestMemento).clear();
@@ -89,7 +90,7 @@ export class SmokeTestExtensionContext implements vscode.ExtensionContext {
     extension: vscode.Extension<any>;
 
     constructor(public readonly extensionPath: string) {
-        this.extension = vscode.extensions.getExtension("ms-vscode.cmake-tools")!;
+        this.extension = util.thisExtension();
     }
     public clean() {
         (this.workspaceState as TestMemento).clear();

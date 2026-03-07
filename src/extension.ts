@@ -1934,7 +1934,7 @@ export class ExtensionManager implements vscode.Disposable {
     }
 
     openSettings() {
-        void vscode.commands.executeCommand('workbench.action.openSettings', '@ext:ms-vscode.cmake-tools');
+        void vscode.commands.executeCommand('workbench.action.openSettings', `@ext:${util.thisExtensionId()}`);
     }
 
     async viewLog() {
@@ -2696,6 +2696,8 @@ class SchemaProvider implements vscode.TextDocumentContentProvider {
  * @returns A promise that will resolve when the extension is ready for use
  */
 export async function activate(context: vscode.ExtensionContext): Promise<api.CMakeToolsExtensionExports> {
+    util.setThisExtension(context.extension);
+
     // CMakeTools versions newer or equal to #1.2 should not coexist with older versions
     // because the publisher changed (from vector-of-bool into ms-vscode),
     // causing many undesired behaviors (duplicate operations, registrations for UI elements, etc...)
@@ -2705,7 +2707,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<api.CM
     }
 
     const twxsExtension = vscode.extensions.getExtension('twxs.cmake');
-    const key = "ms-vscode.cmake-tools.twxs.cmake.showWarning";
+    const key = `${context.extension.id}.twxs.cmake.showWarning`;
     const showTwxsWarning = context.globalState.get(key, true);
     if (twxsExtension && showTwxsWarning) {
         const twxsUninstallString = localize('uninstall.twxs.uninstall', 'Uninstall twxs.cmake');

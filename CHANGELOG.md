@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5
+
+- Fix the fork activation failure caused by hardcoded self-references to `ms-vscode.cmake-tools`.
+- Resolve the current extension ID dynamically for activation, settings, and cpptools integration.
+
 ## 0.0.4
 
 - Register CMake commands before the heavier extension initialization finishes.

@@ -17,6 +17,7 @@ import * as glob from "glob";
 nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 const parser = new contex.Parser({ regexParsingWithErrorRecovery: false });
+let currentExtension: vscode.Extension<any> | undefined;
 
 class Context implements contex.IContext {
 
@@ -567,16 +568,91 @@ export function parseCompileDefinition(str: string): [string, string | null] {
 }
 
 /**
+ * Cache the current extension instance provided by VS Code during activation.
+ * This keeps self-references working when this codebase is republished under a different ID.
+ */
+export function setThisExtension(extension: vscode.Extension<any>): void {
+    currentExtension = extension;
+}
+
+function normalizeExtensionPath(extensionPath: string): string {
+    const resolvedPath = path.resolve(extensionPath);
+    return process.platform === 'win32' ? resolvedPath.toLowerCase() : resolvedPath;
+}
+
+function getCandidateExtensionPaths(): string[] {
+    const candidatePaths: string[] = [];
+    let currentPath = normalizeExtensionPath(__dirname);
+
+    while (true) {
+        if (fs.existsSync(path.join(currentPath, 'package.json'))) {
+            candidatePaths.push(currentPath);
+        }
+
+        const parentPath = normalizeExtensionPath(path.dirname(currentPath));
+        if (parentPath === currentPath) {
+            break;
+        }
+        currentPath = parentPath;
+    }
+
+    return candidatePaths;
+}
+
+function resolveThisExtension(): vscode.Extension<any> | undefined {
+    if (currentExtension) {
+        return currentExtension;
+    }
+
+    for (const candidateExtensionPath of getCandidateExtensionPaths()) {
+        const matchingExtension = vscode.extensions.all.find(extension => normalizeExtensionPath(extension.extensionPath) === candidateExtensionPath);
+        if (matchingExtension) {
+            currentExtension = matchingExtension;
+            return matchingExtension;
+        }
+    }
+
+    for (const candidateExtensionPath of getCandidateExtensionPaths()) {
+        try {
+            const manifestPath = path.join(candidateExtensionPath, 'package.json');
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as PackageJSON;
+            const manifestMatch = vscode.extensions.all.find(extension => extension.packageJSON?.name === manifest.name
+                && extension.packageJSON?.publisher === manifest.publisher);
+            if (manifestMatch) {
+                currentExtension = manifestMatch;
+                return manifestMatch;
+            }
+        } catch {
+            // Keep checking other candidate paths.
+        }
+    }
+
+    const legacyExtension = vscode.extensions.getExtension('ms-vscode.cmake-tools');
+    if (legacyExtension) {
+        currentExtension = legacyExtension;
+    }
+    return legacyExtension;
+}
+
+/**
  * Retrieves the current instance of the CMake Tools extension.
  * @returns The current instance of the CMake Tools extension.
  * @throws An error if the extension is not found.
  */
 export function thisExtension() {
-    const extension = vscode.extensions.getExtension('ms-vscode.cmake-tools');
+    const extension = resolveThisExtension();
     if (!extension) {
         throw new Error(localize('extension.is.undefined', 'Extension is undefined!'));
     }
     return extension;
+}
+
+/**
+ * Retrieves the current extension identifier.
+ * @returns The extension identifier.
+ */
+export function thisExtensionId(): string {
+    return thisExtension().id;
 }
 
 export interface PackageJSON {

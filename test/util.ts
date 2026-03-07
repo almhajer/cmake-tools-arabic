@@ -2,11 +2,11 @@ import { CMakeProject } from '@cmt/cmakeProject';
 import { Kit, scanForKits, kitsForWorkspaceDirectory } from '@cmt/kits/kit';
 import paths from '@cmt/paths';
 import { fs } from '@cmt/pr';
+import * as util from '@cmt/util';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as path from 'path';
-import * as vscode from 'vscode';
 
 // re-exports:
 export { DefaultEnvironment } from '@test/helpers/test/default-environment';
@@ -24,10 +24,7 @@ export async function clearExistingKitConfigurationFile() {
 }
 
 export function getExtension() {
-    const extension = vscode.extensions.getExtension('ms-vscode.cmake-tools');
-    if (!extension) {
-        throw new Error('Extension is undefined!');
-    }
+    const extension = util.thisExtension();
     return extension.isActive ? Promise.resolve(extension.exports) : extension.activate();
 }
 

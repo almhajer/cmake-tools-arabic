@@ -2,6 +2,18 @@ import * as util from '@cmt/util';
 import { expect } from '@test/util';
 
 suite('Utils test', () => {
+    test('Resolve current extension metadata', () => {
+        const extension = util.thisExtension();
+        expect(extension.packageJSON.name).to.eq('cmake-tools-arabic');
+        expect(extension.packageJSON.publisher).to.eq('Arabic-language');
+        expect(util.thisExtensionId()).to.eq(extension.id);
+        expect(util.thisExtensionPackage()).to.deep.eq({
+            name: extension.packageJSON.name,
+            publisher: extension.packageJSON.publisher,
+            version: extension.packageJSON.version
+        });
+    });
+
     test('Split path into elements', () => {
         const elems = util.splitPath('foo/bar/baz');
         expect(elems).to.eql(['foo', 'bar', 'baz']);
