@@ -23,6 +23,7 @@ import { fs } from '@cmt/pr';
 import rollbar from '@cmt/rollbar';
 import { ProgressHandle, reportProgress } from '@cmt/util';
 import { ConfigurationType } from 'vscode-cmake-tools';
+import { formatQuickPickItemsForLocale } from '@cmt/ui/quickPick';
 
 nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -278,7 +279,7 @@ export class KitsController {
             })
         );
         const items = await Promise.all(item_promises);
-        const chosen_kit = await vscode.window.showQuickPick(items,
+        const chosen_kit = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items),
             { placeHolder: localize('select.a.kit.placeholder', 'Select a Kit for {0}', this.project.folderName) },
             this._pickKitCancellationTokenSource.token);
         this._pickKitCancellationTokenSource.dispose();

@@ -52,6 +52,7 @@ import { ProjectController } from '@cmt/projectController';
 import { MessageItem } from 'vscode';
 import { DebugTrackerFactory, DebuggerInformation, getDebuggerPipeName } from '@cmt/debug/cmakeDebugger/debuggerConfigureDriver';
 import { NamedTarget, RichTarget, FolderTarget } from '@cmt/drivers/cmakeDriver';
+import { formatQuickPickItemsForLocale, formatQuickPickItemForLocale } from '@cmt/ui/quickPick';
 
 import { CommandResult, ConfigurationType } from 'vscode-cmake-tools';
 
@@ -999,7 +1000,7 @@ export class CMakeProject {
                     const dontAskAgain: string = localize("do.not.ask.again", "[Don't Show Again]");
                     items.push({ label: browse, fullPath: "", description: localize("search.for.cmakelists", "Search for CMakeLists.txt on this computer") });
                     items.push({ label: dontAskAgain, fullPath: "", description: localize("do.not.ask.again.description", "Do not ask for CMakeLists.txt again in this folder. This will enable the cmake.ignoreCMakeListsMissing setting.") });
-                    const selection: FileItem | undefined = await vscode.window.showQuickPick(items, {
+                    const selection: FileItem | undefined = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items), {
                         placeHolder: (items.length === 1 ? localize("cmakelists.not.found", "No CMakeLists.txt was found.") : localize("select.cmakelists", "Select CMakeLists.txt"))
                     });
                     telemetryProperties["missingCMakeListsUserAction"] = (selection === undefined) ? "cancel" : (selection.label === browse) ? "browse" : (selection.label === dontAskAgain) ? "dontAskAgain" : "pick";
@@ -2414,19 +2415,22 @@ export class CMakeProject {
                 }
             });
 
-            const choicesGroup = itemsGroup.map((t): vscode.QuickPickItem => {
+            interface TargetQuickPickItem extends vscode.QuickPickItem {
+                isFolderGroup?: boolean;
+            }
+            const choicesGroup = itemsGroup.map((t): TargetQuickPickItem => {
                 switch (t.type) {
                     case 'named': {
-                        return {
+                        return formatQuickPickItemForLocale({
                             label: t.name,
                             description: localize('target.to.build.description', 'Target to build')
-                        };
+                        });
                     }
                     case 'rich': {
-                        return { label: t.name, description: t.targetType, detail: t.filepath };
+                        return formatQuickPickItemForLocale({ label: t.name, description: t.targetType, detail: t.filepath });
                     }
                     case 'folder': {
-                        return { label: t.name, description: 'FOLDER' };
+                        return formatQuickPickItemForLocale({ label: t.name, description: 'FOLDER', isFolderGroup: true });
                     }
                 }
             });
@@ -2434,7 +2438,7 @@ export class CMakeProject {
             const selGroup = await vscode.window.showQuickPick(choicesGroup, { placeHolder: localize('select.active.target.tooltip', 'Select the default build target') });
 
             // exit if we do not group the folders or if we got something other than a folder
-            if (!selGroup || !this.workspaceContext.config.useFolderPropertyInBuildTargetDropdown || selGroup.description !== "FOLDER") {
+            if (!selGroup || !this.workspaceContext.config.useFolderPropertyInBuildTargetDropdown || !selGroup.isFolderGroup) {
                 return selGroup ? selGroup.label : null;
             }
 
@@ -2450,13 +2454,13 @@ export class CMakeProject {
             const choices = items.map((t): vscode.QuickPickItem => {
                 switch (t.type) {
                     case 'named': {
-                        return {
+                        return formatQuickPickItemForLocale({
                             label: t.name,
                             description: localize('target.to.build.description', 'Target to build')
-                        };
+                        });
                     }
                     case 'rich': {
-                        return { label: t.name, description: t.targetType, detail: t.filepath };
+                        return formatQuickPickItemForLocale({ label: t.name, description: t.targetType, detail: t.filepath });
                     }
                 }
             });
@@ -2786,7 +2790,7 @@ export class CMakeProject {
         }));
         let chosen: { label: string; detail: string } | undefined;
         if (!name) {
-            chosen = await vscode.window.showQuickPick(choices, { placeHolder: localize('select.a.launch.target', 'Select a launch target for {0}', this.folderName) });
+            chosen = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(choices), { placeHolder: localize('select.a.launch.target', 'Select a launch target for {0}', this.folderName) });
         } else {
             chosen = choices.find(choice => choice.label === name);
         }
@@ -3385,7 +3389,7 @@ export class CMakeProject {
             return -1;
         }
 
-        const targetLang = (await vscode.window.showQuickPick([
+        const targetLang = (await vscode.window.showQuickPick(formatQuickPickItemsForLocale([
             {
                 label: 'C++',
                 description: localize('create.cpp', 'Create a C++ project')
@@ -3394,13 +3398,13 @@ export class CMakeProject {
                 label: 'C',
                 description: localize('create.c', 'Create a C project')
             }
-        ]));
+        ])));
 
         if (!targetLang) {
             return -1;
         }
 
-        const targetType = await vscode.window.showQuickPick([
+        const targetType = await vscode.window.showQuickPick(formatQuickPickItemsForLocale([
             {
                 label: 'Executable',
                 description: localize('create.executable', 'Create an executable')
@@ -3409,13 +3413,13 @@ export class CMakeProject {
                 label: 'Library',
                 description: localize('create.library', 'Create a library')
             }
-        ]);
+        ]));
 
         if (!targetType) {
             return -1;
         }
 
-        const addlOptions = (await vscode.window.showQuickPick([
+        const addlOptions = (await vscode.window.showQuickPick(formatQuickPickItemsForLocale([
             {
                 label: 'CTest',
                 description: localize('ctest.support', 'CTest support')
@@ -3424,7 +3428,7 @@ export class CMakeProject {
                 label: 'CPack',
                 description: localize('cpack.support', 'CPack support')
             }
-        ], { canPickMany: true, placeHolder: localize('select.additional.options', 'Select additional options') }));
+        ]), { canPickMany: true, placeHolder: localize('select.additional.options', 'Select additional options') }));
 
         // select current c/cpp files to add as targets, if any. If none, or none are selected, create a new one
         const files = await fs.readdir(this.sourceDir);

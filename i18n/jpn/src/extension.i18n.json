@@ -65,5 +65,10 @@
 	"options.moved.notification.configure.cmake.options": "CMake オプションの可視性の構成",
 	"options.moved.notification.do.not.show": "今後表示しない",
 	"deactivate.cmaketools": "CMakeTools の非アクティブ化",
-	"bookmark.target.not.resolved": "Bookmark \"{0}\" could not be resolved to a target. The project may need to be reconfigured."
+	"bookmark.target.not.resolved": "Bookmark \"{0}\" could not be resolved to a target. The project may need to be reconfigured.",
+	"activation.failed": "CMake Tools activation failed",
+	"activation.failed.message": "CMake Tools failed to finish activating: {0}",
+	"activation.failed.user.message": "CMake Tools encountered an activation error. Some features may be unavailable until the window is reloaded.",
+	"pinned.commands.init.failed": "Pinned commands initialization failed",
+	"pinned.commands.init.failed.message": "Failed to initialize pinned commands: {0}"
 }

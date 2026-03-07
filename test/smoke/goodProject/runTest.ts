@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import { runTests } from '@vscode/test-electron';
+import { resolveVSCodeTestExecutablePath } from '../../helpers/vscodeTestRunner';
 
 async function main() {
     try {
@@ -12,8 +13,9 @@ async function main() {
         // The path to the extension test runner script
         const extensionTestsPath = path.resolve(__dirname, './index');
         const testWorkspace = path.resolve(extensionDevelopmentPath, 'test/smoke/goodProject');
-        const launchArgs = ["--disable-extensions", "--disable-workspace-trust", testWorkspace];
-        await runTests({ launchArgs, extensionDevelopmentPath, extensionTestsPath, extensionTestsEnv });
+        const launchArgs = ["--disable-extensions", testWorkspace];
+        const vscodeExecutablePath = await resolveVSCodeTestExecutablePath(extensionDevelopmentPath);
+        await runTests({ vscodeExecutablePath, launchArgs, extensionDevelopmentPath, extensionTestsPath, extensionTestsEnv });
 
     } catch (err) {
         console.error(err);

@@ -19,6 +19,7 @@ import { descriptionForKit, Kit, SpecialKits } from '@cmt/kits/kit';
 import { getHostTargetArchString } from '@cmt/installs/visualStudio';
 import { Diagnostic, DiagnosticSeverity, Position, Range } from 'vscode';
 import collections from '@cmt/diagnostics/collections';
+import { formatQuickPickItemForLocale, formatQuickPickItemsForLocale } from '@cmt/ui/quickPick';
 
 nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -311,7 +312,7 @@ export class PresetsController implements vscode.Disposable {
             description: localize('description.toolchain.file', 'Configure with a CMake toolchain file')
         });
 
-        const chosenItem = await vscode.window.showQuickPick(items,
+        const chosenItem = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items),
             { placeHolder: localize('add.a.config.preset.placeholder', 'Add a configure preset for {0}', this.folderName) });
         if (!chosenItem) {
             log.debug(localize('user.cancelled.add.config.preset', 'User cancelled adding configure preset'));
@@ -376,6 +377,7 @@ export class PresetsController implements vscode.Disposable {
 
                     interface KitItem extends vscode.QuickPickItem {
                         kit: Kit;
+                        presetDescription: string;
                     }
                     log.debug(localize('opening.compiler.selection', 'Opening compiler selection QuickPick'));
                     // Generate the quickpick items from our known kits
@@ -392,11 +394,15 @@ export class PresetsController implements vscode.Disposable {
                         }
                     };
                     const item_promises = filteredKits.map(
-                        async (kit): Promise<KitItem> => ({
-                            label: getKitName(kit),
-                            description: await descriptionForKit(kit, true),
-                            kit
-                        })
+                        async (kit): Promise<KitItem> => {
+                            const presetDescription = await descriptionForKit(kit, true);
+                            return formatQuickPickItemForLocale({
+                                label: getKitName(kit),
+                                description: presetDescription,
+                                kit,
+                                presetDescription
+                            });
+                        }
                     );
                     const quickPickItems = await Promise.all(item_promises);
                     const chosen_kit = await vscode.window.showQuickPick(quickPickItems,
@@ -433,7 +439,7 @@ export class PresetsController implements vscode.Disposable {
                             newPreset = {
                                 name: '__placeholder__',
                                 displayName: chosen_kit.kit.name,
-                                description: chosen_kit.description,
+                                description: chosen_kit.presetDescription,
                                 generator,
                                 toolset: chosen_kit.kit.preferredGenerator?.toolset,
                                 architecture: chosen_kit.kit.preferredGenerator?.platform,
@@ -555,7 +561,7 @@ export class PresetsController implements vscode.Disposable {
             description: localize('description.custom.build.preset', 'Add a custom build preset')
         });
 
-        const chosenItem = await vscode.window.showQuickPick(items,
+        const chosenItem = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items),
             { placeHolder: localize('add.a.build.preset.placeholder', 'Add a build preset for {0}', this.folderName) });
         if (!chosenItem) {
             log.debug(localize('user.cancelled.add.build.preset', 'User cancelled adding build preset'));
@@ -634,7 +640,7 @@ export class PresetsController implements vscode.Disposable {
             description: localize('description.custom.test.preset', 'Add a custom test preset')
         });
 
-        const chosenItem = await vscode.window.showQuickPick(items,
+        const chosenItem = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items),
             { placeHolder: localize('add.a.test.preset.placeholder', 'Add a test preset for {0}', this.folderName) });
         if (!chosenItem) {
             log.debug(localize('user.cancelled.add.test.preset', 'User cancelled adding test preset'));
@@ -712,7 +718,7 @@ export class PresetsController implements vscode.Disposable {
             description: localize('description.custom.package.preset', 'Add a custom package preset')
         });
 
-        const chosenItem = await vscode.window.showQuickPick(items,
+        const chosenItem = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items),
             { placeHolder: localize('add.a.package.preset.placeholder', 'Add a package preset for {0}', this.folderName) });
         if (!chosenItem) {
             log.debug(localize('user.cancelled.add.package.preset', 'User cancelled adding package preset'));
@@ -796,7 +802,7 @@ export class PresetsController implements vscode.Disposable {
             description: localize('description.custom.workflow.preset', 'Add a custom workflow preset')
         });
 
-        const chosenItem = await vscode.window.showQuickPick(items,
+        const chosenItem = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items),
             { placeHolder: localize('add.a.workflow.preset.placeholder', 'Add a workflow preset for {0}', this.folderName) });
         if (!chosenItem) {
             log.debug(localize('user.cancelled.add.workflow.preset', 'User cancelled adding workflow preset'));
@@ -873,7 +879,7 @@ export class PresetsController implements vscode.Disposable {
             label: localize('add.new.preset', 'Add a New Preset...'),
             preset: PresetsController._addPreset
         });
-        const chosenPresets = await vscode.window.showQuickPick(items, options);
+        const chosenPresets = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items), options);
         if (util.isArray<PresetItem>(chosenPresets)) {
             return chosenPresets.map(_preset => _preset.preset);
         }

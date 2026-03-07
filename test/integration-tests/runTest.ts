@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import { runTests } from '@vscode/test-electron';
+import { resolveVSCodeTestExecutablePath } from '../helpers/vscodeTestRunner';
 
 async function main() {
     try {
@@ -16,7 +17,8 @@ async function main() {
         // The driver tests change the default workspace folder.
         const testWorkspace = path.resolve(extensionDevelopmentPath, 'test/integration-tests');
 
-        const launchArgs = ["--disable-extensions", "--disable-workspace-trust", testWorkspace];
+        const launchArgs = ["--disable-extensions", testWorkspace];
+        const vscodeExecutablePath = await resolveVSCodeTestExecutablePath(extensionDevelopmentPath);
 
         const extensionTestsEnv: { [key: string]: string | undefined } = {
             "CMT_TESTING": "1",
@@ -25,7 +27,7 @@ async function main() {
         };
 
         // Download VS Code, unzip it and run the integration test
-        await runTests({ launchArgs, extensionDevelopmentPath, extensionTestsPath, extensionTestsEnv });
+        await runTests({ vscodeExecutablePath, launchArgs, extensionDevelopmentPath, extensionTestsPath, extensionTestsEnv });
     } catch (err) {
         console.error(err);
         console.error('Failed to run tests');

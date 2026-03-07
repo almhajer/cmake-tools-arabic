@@ -51,6 +51,7 @@ import { DebugConfigurationProvider, DynamicDebugConfigurationProvider } from '@
 import { deIntegrateTestExplorer } from "@cmt/ctest";
 import collections from '@cmt/diagnostics/collections';
 import { LanguageServiceData } from './languageServices/languageServiceData';
+import { formatQuickPickItemsForLocale } from '@cmt/ui/quickPick';
 
 nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -1524,7 +1525,7 @@ export class ExtensionManager implements vscode.Disposable {
                 description: choices[key]!.long
             });
         }
-        const choice = await vscode.window.showQuickPick(variantItems);
+        const choice = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(variantItems));
         if (choice) {
             return this.runCMakeCommandForAll(cmakeProject => cmakeProject.setVariant(choice.label));
         }
@@ -1606,7 +1607,7 @@ export class ExtensionManager implements vscode.Disposable {
             };
             return item;
         });
-        const selection = await vscode.window.showQuickPick(items, { placeHolder: localize('select.a.cmake.project', 'Select a cmake project') });
+        const selection = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items), { placeHolder: localize('select.a.cmake.project', 'Select a cmake project') });
         if (selection) {
             console.assert(selection.cmakeProject.folderName, 'Project not found in project controller.');
             return selection.cmakeProject;

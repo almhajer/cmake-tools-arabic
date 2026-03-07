@@ -14,6 +14,7 @@ import { loadSchema } from '@cmt/schema';
 import { StateManager } from '@cmt/state';
 import * as util from '@cmt/util';
 import * as nls from 'vscode-nls';
+import { formatQuickPickItemsForLocale } from '@cmt/ui/quickPick';
 
 nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -403,7 +404,7 @@ export class VariantManager implements vscode.Disposable {
             await this.publishActiveKeywordSettings(this.activeKeywordSetting ?? items[0].keywordSettings);
             return true;
         } else {
-            const chosen = await vscode.window.showQuickPick(items, {placeHolder: localize('select.a.variant.placeholder', 'Select a build variant')});
+            const chosen = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items), {placeHolder: localize('select.a.variant.placeholder', 'Select a build variant')});
             if (!chosen) {
                 return false;
             }

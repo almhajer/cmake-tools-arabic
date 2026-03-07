@@ -16,6 +16,7 @@ import * as telemetry from '@cmt/telemetry';
 import * as util from '@cmt/util';
 import * as expand from '@cmt/expand';
 import { CommandResult } from 'vscode-cmake-tools';
+import { formatQuickPickItemsForLocale } from '@cmt/ui/quickPick';
 
 nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -372,7 +373,7 @@ export class CMakeTaskProvider implements vscode.TaskProvider {
         matchingTargetTasks.push(await CMakeTaskProvider.provideTask(CommandType.build, workspaceFolderObj, undefined, targets, presetName));
         const items: TaskMenu[] = matchingTargetTasks.map<TaskMenu>(task => ({ label: task.name, task: task, description: task.detail }));
         // Ask the user to pick a task.
-        const selection = await vscode.window.showQuickPick(items, { placeHolder: localize('select.build.task', 'Select a build task') });
+        const selection = await vscode.window.showQuickPick(formatQuickPickItemsForLocale(items), { placeHolder: localize('select.build.task', 'Select a build task') });
         return selection?.task;
     }
 }

@@ -65,5 +65,10 @@
 	"options.moved.notification.body": "تم نقل بعض خيارات شريط الحالة لأدوات CMake إلى عرض حالة المشروع في الشريط الجانبي لأدوات CMake. يمكنك تخصيص العرض باستخدام خاصية \"cmake.options\" في الإعدادات.",
 	"options.moved.notification.configure.cmake.options": "تكوين رؤية خيارات CMake",
 	"options.moved.notification.do.not.show": "لا تظهر مرة أخرى",
-	"deactivate.cmaketools": "تعطيل CMakeTools"
+	"deactivate.cmaketools": "تعطيل CMakeTools",
+	"activation.failed": "فشل تنشيط CMake Tools",
+	"activation.failed.message": "فشل CMake Tools في إكمال التنشيط: {0}",
+	"activation.failed.user.message": "واجه CMake Tools خطأ أثناء التنشيط. قد لا تتوفر بعض الميزات حتى تتم إعادة تحميل النافذة.",
+	"pinned.commands.init.failed": "فشل تهيئة الأوامر المثبتة",
+	"pinned.commands.init.failed.message": "فشلت تهيئة الأوامر المثبتة: {0}"
 }

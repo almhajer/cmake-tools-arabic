@@ -21,21 +21,6 @@ export enum StateMessage {
  * in conjunction with `proc.execute`.
  */
 export class CMakeOutputConsumer extends CommandConsumer {
-    /**
-     * Matches CMake status lines that signal key configure/generate lifecycle
-     * milestones.  These are always logged at `info` so they remain visible at
-     * the default logging level.  All other stdout lines use `debug`, keeping
-     * the Output panel concise while still being one setting-change away.
-     *
-     * Matched patterns (all prefixed with `-- `):
-     *   Configuring done           / Configuring done (0.1s)
-     *   Configuring incomplete, errors occurred!
-     *   Generating done
-     *   Build files have been written to: <path>
-     */
-    private static readonly _milestoneRe =
-        /^-- +(Configuring (done|incomplete)|Generating done|Build files have been written to:)/;
-
     constructor(readonly sourceDir: string, readonly logger?: Logger) {
         super();
     }
@@ -61,18 +46,13 @@ export class CMakeOutputConsumer extends CommandConsumer {
     private readonly _stateMessages: StateMessage[] = [];
 
     /**
-     * Writes the line of output to the log at a tiered level:
-     * - Milestone lines (configure/generate done, build files written) → info
-     * - All other CMake stdout → debug
+     * Writes CMake stdout to the Output channel at info level so configure-time
+     * status lines remain visible with the default logging settings.
      * @param line Line of output
      */
     output(line: string) {
         if (this.logger) {
-            if (CMakeOutputConsumer._milestoneRe.test(line)) {
-                this.logger.info(line);
-            } else {
-                this.logger.debug(line);
-            }
+            this.logger.info(line);
         }
         super.output(line);
         this._parseDiags(line);

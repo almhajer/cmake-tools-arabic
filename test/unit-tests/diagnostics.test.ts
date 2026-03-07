@@ -1364,13 +1364,12 @@ suite('Diagnostics', () => {
         consumer.dispose();
     });
 
-    test('CMakeOutputConsumer logs milestone stdout at info and routine stdout at debug', () => {
+    test('CMakeOutputConsumer logs configure stdout at info so it is visible in Output', () => {
         const spy = new SpyLogger();
         const consumerWithLogger = new CMakeOutputConsumer('dummyPath', spy);
-        // Routine CMake status lines → debug
+        // Routine and milestone lines should all stay visible at the default logging level.
         consumerWithLogger.output('-- The C compiler identification is GNU 9.3.0');
         consumerWithLogger.output('-- Detecting CXX compiler ABI info');
-        // Milestone lines → info
         consumerWithLogger.output('-- Configuring done');
         consumerWithLogger.output('-- Generating done');
         consumerWithLogger.output('-- Build files have been written to: /path/to/build');
@@ -1379,16 +1378,16 @@ suite('Diagnostics', () => {
         const infoCalls = spy.calls.filter(c => c.level === 'info');
         const debugCalls = spy.calls.filter(c => c.level === 'debug');
         const traceCalls = spy.calls.filter(c => c.level === 'trace');
-        // 4 milestones at info
-        expect(infoCalls.length).to.eq(4);
+        expect(infoCalls.length).to.eq(6);
         expect(infoCalls.map(c => c.args[0])).to.deep.eq([
+            '-- The C compiler identification is GNU 9.3.0',
+            '-- Detecting CXX compiler ABI info',
             '-- Configuring done',
             '-- Generating done',
             '-- Build files have been written to: /path/to/build',
             '-- Configuring incomplete, errors occurred!'
         ]);
-        // 2 routine lines at debug
-        expect(debugCalls.length).to.eq(2);
+        expect(debugCalls.length).to.eq(0);
         // Nothing at trace
         expect(traceCalls.length).to.eq(0);
     });
