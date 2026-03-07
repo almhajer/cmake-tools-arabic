@@ -1,6 +1,6 @@
 # CMake Tools بالعربي
 
-![Version](https://img.shields.io/badge/version-0.0.2-blue?style=for-the-badge&logo=github)
+![Version](https://img.shields.io/badge/version-0.0.1-blue?style=for-the-badge&logo=github)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.88.0%2B-green?style=for-the-badge&logo=visual-studio-code)
 [![License](https://img.shields.io/badge/license-MIT-orange?style=for-the-badge&logo=opensourceinitiative)](https://github.com/almhajer/cmake-tools-arabic/blob/main/LICENSE.txt)
 
@@ -46,7 +46,7 @@ code --install-extension Arabic-language.cmake-tools-arabic
 من ملف VSIX:
 
 ```bash
-code --install-extension cmake-tools-arabic-0.0.2.vsix
+code --install-extension cmake-tools-arabic-0.0.1.vsix
 ```
 
 ## التطوير والتجميع
@@ -54,7 +54,7 @@ code --install-extension cmake-tools-arabic-0.0.2.vsix
 ```bash
 yarn install
 yarn run compile-production
-./node_modules/.bin/vsce package --no-yarn -o cmake-tools-arabic-0.0.2.vsix
+./node_modules/.bin/vsce package --no-yarn -o cmake-tools-arabic-0.0.1.vsix
 ```
 
 ## التوثيق
