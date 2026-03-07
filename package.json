@@ -4066,21 +4066,25 @@
         {
           "id": "cmake.projectStatus",
           "name": "%cmake-tools.configuration.views.cmake.projectStatus.description%",
+          "icon": "$(cmake-tools-cmake-view-1)",
           "when": "cmake:enableFullFeatureSet"
         },
         {
           "id": "cmake.outline",
           "name": "%cmake-tools.configuration.views.cmake.outline.description%",
+          "icon": "$(list-tree)",
           "when": "cmake:enableFullFeatureSet"
         },
         {
           "id": "cmake.pinnedCommands",
           "name": "%cmake-tools.configuration.views.cmake.pinnedCommands.description%",
+          "icon": "$(pin)",
           "when": "cmake:enableFullFeatureSet"
         },
         {
           "id": "cmake.bookmarks",
           "name": "Bookmarks",
+          "icon": "$(bookmark)",
           "when": "cmake:enableFullFeatureSet"
         }
       ]
