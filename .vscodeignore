@@ -1,6 +1,9 @@
 .devcontainer/
 .github/
 .vscode/
+.vscode-dev-extensions/
+.vscode-dev-userdata/
+.vscode-test/
 .yarn-cache/
 build/
 docs/
@@ -21,7 +24,12 @@ vscode-translations-import/
 .eslintrc.js
 .gitattributes
 .gitignore
+.npmrc
+*.vsix
+.DS_Store
+DEVELOPER_HANDOFF_*.md
 gulpfile.js
+package-lock.json
 tsconfig.json
 test.tsconfig.json
 translations_auto_pr.js

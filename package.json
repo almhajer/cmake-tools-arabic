@@ -1,8 +1,8 @@
 {
-  "name": "cmake-tools-arabic",
-  "displayName": "CMake Tools بالعربي",
-  "description": "Arabic-localized CMake Tools extension for Visual Studio Code",
-  "version": "0.0.1",
+  "name": "arabic-cMake-tools",
+  "displayName": "Arabic CMake Tools",
+  "description": "إضافة دعم عربي لمستخدمي CMake في Visual Studio Code، مصممة لتسهيل الفهم والاستخدام للمطورين الناطقين بالعربية. توفر هذه الإضافة ترجمة شاملة لواجهة CMake Tools، مما يجعلها أكثر سهولة في الاستخدام للمطورين الذين يفضلون العمل باللغة العربية.",
+  "version": "0.0.2",
   "publisher": "Arabic-language",
   "repository": {
     "type": "git",
@@ -22,7 +22,26 @@
     "syntaxes",
     "debug",
     "عربي",
-    "اللغة العربية"
+    "اللغة العربية",
+    "تطوير",
+    "بناء",
+    "تصحيح",
+    "البرمجة",
+    "اللغات البرمجية",
+    "الأدوات",
+    "الامتدادات",
+    "فيجوال ستوديو كود",
+    "فيجوال ستوديو كود عربي",
+    "cmake عربي",
+    "cmake tools عربي",
+    "cmake tools localization",
+    "cmake tools translation",
+    "cmake tools internationalization",
+    "سي ميك عربي",
+    "سي ميك تولز عربي",
+    "سي ميك تولز تعريب",
+    "سي ميك تولز ترجمة"
+
   ],
   "engines": {
     "vscode": "^1.88.0"

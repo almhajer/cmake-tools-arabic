@@ -21,6 +21,8 @@
 - Simplify Marketplace metadata to avoid rendering issues in the Marketplace web page.
 - Replace the long inherited changelog with a short fork-specific changelog.
 - Simplify the Arabic README for better compatibility with Marketplace rendering.
+- Update the published display name to `Arabic CMake Tools`.
+- Align the packaged extension metadata and installation docs with version `0.0.2`.
 
 ## 0.0.1
 

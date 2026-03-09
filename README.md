@@ -1,10 +1,10 @@
 <div align="center">
 
-# 🔧 CMake Tools بالعربي
+# 🔧 Arabic CMake Tools
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-0.0.1-blue?style=for-the-badge&logo=visual-studio-code)
+![Version](https://img.shields.io/badge/version-0.0.2-blue?style=for-the-badge&logo=visual-studio-code)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.88.0%2B-green?style=for-the-badge&logo=visual-studio-code)
 [![License](https://img.shields.io/badge/license-MIT-orange?style=for-the-badge&logo=opensourceinitiative)](LICENSE.txt)
 
@@ -48,7 +48,7 @@
 
 <div style="background: linear-gradient(135deg, #0f4c81 0%, #3a7bd5 100%); padding: 22px; border-radius: 12px; color: white;">
 
-> **CMake Tools Arabic** هي إضافة VS Code توفّر نفس القدرات الأساسية المعروفة في CMake Tools، مع تجهيز عربي للتوثيق وإصدار مستقل باسم `cmake-tools-arabic`.
+> **Arabic CMake Tools** هي إضافة VS Code توفّر نفس القدرات الأساسية المعروفة في CMake Tools، مع تجهيز عربي للتوثيق وإصدار مستقل باسم `arabic-cMake-tools`.
 
 </div>
 
@@ -172,19 +172,19 @@
 
 1. افتح VS Code.
 2. افتح `Extensions`.
-3. ابحث عن `CMake Tools Arabic`.
+3. ابحث عن `Arabic CMake Tools`.
 4. اضغط Install.
 
 ### عبر سطر الأوامر
 
 ```bash
-code --install-extension Arabic-language.cmake-tools-arabic
+code --install-extension Arabic-language.arabic-cMake-tools
 ```
 
 ### عبر VSIX
 
 ```bash
-code --install-extension cmake-tools-arabic-0.0.1.vsix
+code --install-extension arabic-cMake-tools-0.0.2.vsix
 ```
 
 ---
@@ -203,7 +203,7 @@ yarn install
 yarn run compile-production
 
 # إنشاء ملف VSIX
-./node_modules/.bin/vsce package --no-yarn -o cmake-tools-arabic-0.0.1.vsix
+./node_modules/.bin/vsce package --no-yarn -o arabic-cMake-tools-0.0.2.vsix
 ```
 
 ---
@@ -219,7 +219,7 @@ yarn run compile-production
 | الرابط | الوصف |
 |:------:|:------|
 | [GitHub](https://github.com/almhajer/cmake-tools-arabic) | المستودع الرسمي |
-| [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=Arabic-language.cmake-tools-arabic) | صفحة الإضافة |
+| [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=Arabic-language.arabic-cMake-tools) | صفحة الإضافة |
 | [Releases](https://github.com/almhajer/cmake-tools-arabic/releases) | الإصدارات |
 | [Issues](https://github.com/almhajer/cmake-tools-arabic/issues) | الإبلاغ عن مشاكل |
 | [المشروع الأصلي](https://github.com/microsoft/vscode-cmake-tools) | مشروع Microsoft الأصلي |

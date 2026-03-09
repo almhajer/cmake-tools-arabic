@@ -12,7 +12,7 @@
 | المستودع | https://github.com/almhajer/cmake-tools-arabic |
 | الناشر | `Arabic-language` |
 | اسم الإضافة | `cmake-tools-arabic` |
-| الإصدار الحالي | `0.0.1` |
+| الإصدار الحالي | `0.0.2` |
 
 ---
 
@@ -171,7 +171,7 @@ yarn run compile-production
 ### إنشاء حزمة VSIX
 
 ```bash
-./node_modules/.bin/vsce package --no-yarn -o cmake-tools-arabic-0.0.1.vsix
+./node_modules/.bin/vsce package --no-yarn -o cmake-tools-arabic-0.0.2.vsix
 ```
 
 ### تشغيل الاختبارات
@@ -199,7 +199,7 @@ vsce publish -p <PERSONAL_ACCESS_TOKEN>
 ### إنشاء Release على GitHub
 
 ```bash
-gh release create v0.0.1 --title "v0.0.1" --notes "الإصدار الأول"
+gh release create v0.0.2 --title "v0.0.2" --notes "تحديث الاسم الظاهر وتحسين بيانات النشر"
 ```
 
 ---
@@ -237,7 +237,7 @@ gh release create v0.0.1 --title "v0.0.1" --notes "الإصدار الأول"
 
 | التاريخ | الإصدار | التغييرات |
 |:--------|:--------|:----------|
-| 2026-07-03 | 0.0.1 | الإصدار الأول - تعريب الإضافة |
+| 2026-03-09 | 0.0.2 | تحديث الاسم الظاهر وتحسين بيانات النشر |
 
 ---
 
